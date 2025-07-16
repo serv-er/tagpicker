@@ -1,9 +1,9 @@
 {
   "name": "tagpicker",
   "displayName": "TagPicker",
-  "description": "Search and refactor JSX tags quickly in any open VS Code file",
-  "version": "0.1.0",
-  "preview": true,
+  "description": "Search, refactor, and visually debug JSX tags in large codebases with ease.",
+  "version": "0.1.2",
+  "publisher": "SarveshBaranwal",
   "engines": {
     "vscode": "^1.102.0"
   },
@@ -45,10 +45,13 @@
     ]
   },
   "repository": {
-  "type": "git",
-  "url": "https://github.com/yourusername/tagpicker.git"
-},
-
+    "type": "git",
+    "url": "https://github.com/serv-er/tagpicker"
+  },
+  "bugs": {
+    "url": "https://github.com/serv-er/tagpicker/issues"
+  },
+  "homepage": "https://github.com/serv-er/tagpicker#readme",
   "scripts": {
     "vscode:prepublish": "npm run package",
     "compile": "npm run check-types && npm run lint && node esbuild.js",
@@ -81,5 +84,5 @@
     "@babel/parser": "^7.28.0",
     "@babel/traverse": "^7.28.0"
   },
-  "publisher": "SarveshBaranwal"
+  "license": "MIT"
 }

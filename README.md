@@ -1,9 +1,13 @@
-# ⚡ TagPicker — Visual Tag Refactor & Debugging Assistant (Alpha)
+# ⚡ TagPicker — Visual Tag Refactor & Debugging Assistant
 
 **Stop scrolling through 800+ lines of JSX. Start debugging and refactoring like a ninja.**  
 TagPicker gives developers the power to **visually search, edit, batch replace, and trace JSX tags** in any open file — directly from a popup.
 
 > 🛠️ Currently supports `.jsx` and `.tsx` files. Support for all file types (HTML, Vue, Svelte, etc.) coming soon!
+
+[![Version](https://vsmarketplacebadge.apphb.com/version/SarveshBaranwal.tagpicker.svg)](https://marketplace.visualstudio.com/items?itemName=SarveshBaranwal.tagpicker)
+[![Installs](https://vsmarketplacebadge.apphb.com/installs/SarveshBaranwal.tagpicker.svg)](https://marketplace.visualstudio.com/items?itemName=SarveshBaranwal.tagpicker)
+[![Rating](https://vsmarketplacebadge.apphb.com/rating/SarveshBaranwal.tagpicker.svg)](https://marketplace.visualstudio.com/items?itemName=SarveshBaranwal.tagpicker)
 
 ---
 
@@ -16,11 +20,11 @@ Debugging UI is painful. You:
 
 **TagPicker eliminates all that.**
 
-🔍 Instantly **see all matching tags**
-📝 Click → **edit any tag inline**
-💥 Batch update all tags by `.class`, `id`, or `alt`
-🔥 Highlight & sequence updates visually
-↩️ Undo / Redo every change
+🔍 Instantly **see all matching tags**  
+📝 Click → **edit any tag inline**  
+💥 Batch update all tags by `.class`, `id`, or `alt`  
+🔥 Highlight & sequence updates visually  
+↩️ Undo / Redo every change  
 🧼 Clear all highlights in one click
 
 ---
@@ -40,48 +44,65 @@ Debugging UI is painful. You:
 
 ---
 
-## 🎯 How to Use
+## 🎯 How to Use (Stable Version via VS Code Marketplace)
 
-1. Open any `.jsx` or `.tsx` file
-2. Press `Ctrl + Shift + T` (or open Command Palette → "TagPicker: Pick JSX Tags")
-3. Select the tag you want to update
-4. Instantly edit it from the popup
-5. Boom! All updates are tracked & highlighted
+1. Go to the [TagPicker Extension on Marketplace](https://marketplace.visualstudio.com/items?itemName=SarveshBaranwal.tagpicker)
+2. Click **Install**
+3. Open any `.jsx` or `.tsx` file
+4. Press `Ctrl + Shift + T`  
+   _or_ open Command Palette → `TagPicker: Pick JSX Tags`
+5. Select the tag → Edit → Boom! Changes tracked, highlighted, and versioned!
 
-> Commands also available:
+> 🔁 Use additional commands:
 - `TagPicker: Undo`
 - `TagPicker: Redo`
 - `TagPicker: Clear JSX Tag Highlights`
 
 ---
 
-## 🛣 Roadmap
-
-- [x] JSX/TSX tag selection & editing
-- [x] Highlight + versioning of updates
-- [x] Batch editing by attribute
-- [x] Undo / Redo support
-- [ ] 🔜 Support for all development file types (HTML, Vue, Svelte)
-- [ ] 🔜 Sidebar preview panel (edit + visual feedback)
-- [ ] 🔜 Git integration to stage/tag only changed elements
-
----
-
-## 💬 Feedback & Community
-
-We’re just getting started. If you love the dev experience this unlocks —  
-drop a ⭐ on [GitHub](#) (coming soon) and send your feedback on Twitter [@SarveshBaranw12](#) (coming soon).
-
----
-
-## 👑 Made by [Sarvesh Baranwal](https://github.com/sarv-er)
-
-> “Let developers refactor like they think — **visually, rapidly, and smartly.** That’s TagPicker’s mission.”
-
----
-
-## 🧪 Install & Try Locally
+## 🧪 Want to Build or Install Locally?
 
 ```bash
-vsce package
-code --install-extension tagpicker-0.1.0-alpha.vsix
+# Clone this repo
+git clone https://github.com/serv-er/tagpicker
+cd tagpicker
+
+# Install dependencies
+npm install
+
+# OPTION 1: Use NPM Script
+npm run package
+
+# OPTION 2 (Recommended): Use VSCE directly
+npx vsce package
+
+# Then install the .vsix file
+code --install-extension tagpicker-0.1.2.vsix
+```
+## 🛣 Roadmap
+- ✅ JSX/TSX tag selection & editing
+
+- ✅ Highlight + versioning of updates
+
+ - ✅Batch editing by attribute
+
+ - ✅Undo / Redo support
+
+ - 🔜 Support for all dev file types (HTML, Vue, Svelte)
+
+ - 🔜 Sidebar visual tag editor
+
+ - 🔜 Git integration to track modified tags
+
+## 💬 Feedback & Community
+We’re just getting started. If this improves your dev life:
+→ ⭐ Star us on GitHub
+→ Tweet your feedback to @SarveshBaranw12
+
+## 👑 Author
+Made with ⚡ by Sarvesh Baranwal
+
+“Let developers refactor like they think — visually, rapidly, and smartly. That’s TagPicker’s mission.”
+
+## 📄 License
+MIT License
