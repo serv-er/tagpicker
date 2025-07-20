@@ -2,7 +2,7 @@
   "name": "tagpicker",
   "displayName": "TagPicker",
   "description": "Search, refactor, and visually debug JSX tags in large codebases with ease.",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "publisher": "SarveshBaranwal",
   "engines": {
     "vscode": "^1.102.0"

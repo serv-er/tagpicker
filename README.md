@@ -50,10 +50,18 @@ Debugging UI is painful. You:
    _or_ open Command Palette → `TagPicker: Pick JSX Tags`
 5. Select the tag → Edit → Boom! Changes tracked, highlighted, and versioned!
 
-> 🔁 Use additional commands:
-- `TagPicker: Undo`
-- `TagPicker: Redo`
-- `TagPicker: Clear JSX Tag Highlights`
+## 🔧 Commands
+
+| Command                                 | Shortcut            | Description                                                                 |
+|-----------------------------------------|----------------------|-----------------------------------------------------------------------------|
+| **TagPicker: Pick JSX Tags**            | `Ctrl + Shift + T`   | Open the visual JSX tag picker popup for the current file.                  |
+| **TagPicker: Undo**                     | `Ctrl + Shift + Z`   | Revert the last JSX tag edit.                                               |
+| **TagPicker: Redo**                     | `Ctrl + Shift + Y`   | Reapply the most recent undone tag edit.                                    |
+| **TagPicker: Clear JSX Tag Highlights** | `Ctrl + Shift + Q`   | Remove all current visual tag highlights from the editor.                   |
+| **TagPicker: Bulk Update Selected Tags**| _(Via Popup)_        | Select and update multiple tags at once, with **different** values per tag. |
+| **TagPicker: Edit by Line/Class/Tag**   | _(Smart Search)_     | Search tags by **line number**, `className`, or tag name (`<img>`, etc.).   |
+
+> 🧠 Use the Command Palette (`Ctrl + Shift + P`) and search `TagPicker` to run any of the above too.
 
 ---
 
