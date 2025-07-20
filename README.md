@@ -5,9 +5,6 @@ TagPicker gives developers the power to **visually search, edit, batch replace, 
 
 > 🛠️ Currently supports `.jsx` and `.tsx` files. Support for all file types (HTML, Vue, Svelte, etc.) coming soon!
 
-[![Version](https://vsmarketplacebadge.apphb.com/version/SarveshBaranwal.tagpicker.svg)](https://marketplace.visualstudio.com/items?itemName=SarveshBaranwal.tagpicker)
-[![Installs](https://vsmarketplacebadge.apphb.com/installs/SarveshBaranwal.tagpicker.svg)](https://marketplace.visualstudio.com/items?itemName=SarveshBaranwal.tagpicker)
-[![Rating](https://vsmarketplacebadge.apphb.com/rating/SarveshBaranwal.tagpicker.svg)](https://marketplace.visualstudio.com/items?itemName=SarveshBaranwal.tagpicker)
 
 ---
 

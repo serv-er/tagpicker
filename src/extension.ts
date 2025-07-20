@@ -1,3 +1,4 @@
+// tagPicker.ts
 import * as vscode from 'vscode';
 import { parse } from '@babel/parser';
 import traverse from '@babel/traverse';
@@ -25,7 +26,6 @@ const undoStack: UpdateRecord[][] = [];
 const redoStack: UpdateRecord[][] = [];
 
 export function activate(context: vscode.ExtensionContext) {
-  // --- Command 1: Pick JSX Tags and Edit ---
   const pickCommand = vscode.commands.registerCommand('TagPicker.pickTags', async () => {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
@@ -35,7 +35,6 @@ export function activate(context: vscode.ExtensionContext) {
 
     const document = editor.document;
     const text = document.getText();
-
     const ast = parse(text, {
       sourceType: 'module',
       plugins: ['jsx', 'typescript'],
@@ -45,7 +44,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     traverse(ast, {
       JSXOpeningElement(path) {
-        if (path.node.name.type !== 'JSXIdentifier') {return;}
+        if (path.node.name.type !== 'JSXIdentifier') return;
 
         const tag = path.node.name.name;
         const props: Record<string, string> = {};
@@ -86,61 +85,52 @@ export function activate(context: vscode.ExtensionContext) {
         .map(([k, v]) => `${k}="${v}"`)
         .join(' ');
       return {
-        label: `<${m.tag} ${propsText}>`,
+        label: `<${m.tag} ${propsText}> (line ${m.line})`,
         description: `Line ${m.line}`,
+        detail: `Tag: <${m.tag}> | Line: ${m.line}`,
         match: m,
       };
     });
 
     const selected = await vscode.window.showQuickPick(options, {
-      placeHolder: 'Select a JSX element to edit',
+      placeHolder: 'Search by tag, className, or line number',
+      canPickMany: true,
+      matchOnDescription: true,
+      matchOnDetail: true,
     });
 
-    if (!selected) {return;}
-
-    const selectedMatch = selected.match;
-    const oldSnippet = selectedMatch.snippet;
-
-    let matchingElements = [selectedMatch];
-
-    const className = selectedMatch.props.className;
-    if (className) {
-      const others = matches.filter(
-        m => m.props.className === className && m !== selectedMatch
-      );
-
-      if (others.length > 0) {
-        const confirm = await vscode.window.showQuickPick(
-          [
-            `Yes – Apply to all ${others.length + 1} <${selectedMatch.tag}> with className="${className}"`,
-            'No – Only update selected tag'
-          ],
-          { placeHolder: `Multiple elements found with className="${className}"` }
-        );
-        if (confirm?.startsWith('Yes')) {
-          matchingElements = [selectedMatch, ...others];
-        }
-      }
-    }
-
-    const newTagText = await vscode.window.showInputBox({
-      prompt: `Edit tag:`,
-      value: oldSnippet,
-    });
-
-    if (!newTagText || newTagText === oldSnippet) {return;}
+    if (!selected || selected.length === 0) return;
 
     const updateSet: UpdateRecord[] = [];
 
-    editor.edit(editBuilder => {
-      for (const match of matchingElements) {
-        const start = document.positionAt(match.startPos);
-        const end = document.positionAt(match.endPos);
-        const range = new vscode.Range(start, end);
-        const oldText = document.getText(range);
+    for (const item of selected) {
+      const selectedMatch = item.match;
+      const oldSnippet = selectedMatch.snippet;
 
-        editBuilder.replace(range, newTagText);
-        updateSet.push({ range, oldText, newText: newTagText });
+      const newTagText = await vscode.window.showInputBox({
+        prompt: `Edit tag on line ${selectedMatch.line}`,
+        value: oldSnippet,
+      });
+
+      if (!newTagText || newTagText === oldSnippet) continue;
+
+      const start = document.positionAt(selectedMatch.startPos);
+      const end = document.positionAt(selectedMatch.endPos);
+      const range = new vscode.Range(start, end);
+      const oldText = document.getText(range);
+
+      updateSet.push({
+        range,
+        oldText,
+        newText: newTagText,
+      });
+    }
+
+    if (updateSet.length === 0) return;
+
+    editor.edit(editBuilder => {
+      for (const record of updateSet) {
+        editBuilder.replace(record.range, record.newText);
 
         const deco = vscode.window.createTextEditorDecorationType({
           backgroundColor: 'rgba(255, 215, 0, 0.2)',
@@ -153,31 +143,28 @@ export function activate(context: vscode.ExtensionContext) {
         });
 
         decorationTypes.push(deco);
-        editor.setDecorations(deco, [range]);
+        editor.setDecorations(deco, [record.range]);
         updateCounter++;
       }
     }).then(() => {
       undoStack.push(updateSet);
-      redoStack.length = 0; // clear redo on new change
+      redoStack.length = 0;
       vscode.window.showInformationMessage(`✅ Updated ${updateSet.length} tag(s).`);
     });
   });
 
-  // --- Command 2: Clear All Highlights ---
   const clearCommand = vscode.commands.registerCommand('TagPicker.clearHighlights', () => {
     const editor = vscode.window.activeTextEditor;
-    if (!editor) {return;}
-
-    decorationTypes.forEach(deco => deco.dispose());
+    if (!editor) return;
+    decorationTypes.forEach(d => d.dispose());
     decorationTypes = [];
     updateCounter = 1;
     vscode.window.showInformationMessage('✅ All highlights cleared.');
   });
 
-  // --- Command 3: Undo ---
   const undoCommand = vscode.commands.registerCommand('TagPicker.undo', () => {
     const editor = vscode.window.activeTextEditor;
-    if (!editor || undoStack.length === 0) {return;}
+    if (!editor || undoStack.length === 0) return;
 
     const lastBatch = undoStack.pop()!;
     editor.edit(editBuilder => {
@@ -190,10 +177,9 @@ export function activate(context: vscode.ExtensionContext) {
     });
   });
 
-  // --- Command 4: Redo ---
   const redoCommand = vscode.commands.registerCommand('TagPicker.redo', () => {
     const editor = vscode.window.activeTextEditor;
-    if (!editor || redoStack.length === 0) {return;}
+    if (!editor || redoStack.length === 0) return;
 
     const lastRedo = redoStack.pop()!;
     editor.edit(editBuilder => {

@@ -2,7 +2,7 @@
   "name": "tagpicker",
   "displayName": "TagPicker",
   "description": "Search, refactor, and visually debug JSX tags in large codebases with ease.",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "publisher": "SarveshBaranwal",
   "engines": {
     "vscode": "^1.102.0"
@@ -41,6 +41,21 @@
         "command": "TagPicker.pickTags",
         "key": "ctrl+shift+t",
         "when": "editorTextFocus"
+      },
+      {
+        "command": "TagPicker.undo",
+        "key": "ctrl+shift+z",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "TagPicker.redo",
+        "key": "ctrl+shift+y",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "TagPicker.clearHighlights",
+        "key": "ctrl+shift+q",
+        "when": "editorTextFocus"
       }
     ]
   },
@@ -53,12 +68,13 @@
   },
   "homepage": "https://github.com/serv-er/tagpicker#readme",
   "scripts": {
+    "build": "esbuild src/extension.ts --bundle --minify --platform=node --external:@babel/parser --external:@babel/traverse --external:vscode --outfile=dist/extension.js",
     "vscode:prepublish": "npm run package",
     "compile": "npm run check-types && npm run lint && node esbuild.js",
     "watch": "npm-run-all -p watch:*",
     "watch:esbuild": "node esbuild.js --watch",
     "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
-    "package": "npm run check-types && npm run lint && node esbuild.js --production",
+    "package": "npm run check-types && npm run lint && esbuild src/extension.ts --bundle --minify --platform=node --external:@babel/parser --external:@babel/traverse --external:vscode --outfile=dist/extension.js",
     "compile-tests": "tsc -p . --outDir out",
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "npm run compile-tests && npm run compile && npm run lint",
